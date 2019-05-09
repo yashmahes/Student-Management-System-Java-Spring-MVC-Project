@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+    <head> 
+        <title>Student</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <h1>Result</h1>
+        <p th:text="'ID: ' + ${employee.id}" />
+        <p th:text="'First Name: ' + ${employee.fname}" />
+        <p th:text="'Surname: ' + ${employee.surname}" />
+        <p th:text="'Score' + ${empsal}" />
+
+        <br>
+        <p th:text="'Average Score of All Students ' + ${avg}" />
+        <p th:text="'Maximum Score of All Students ' + ${max}" />
+
+        <a href="/addemployee">Add another Student details</a>
+    </body>
+</html>

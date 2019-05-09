@@ -1,0 +1,4 @@
+http://www.springboottutorial.com/spring-boot-and-iBatis-with-h2-tutorial
+https://memorynotfound.com/spring-boot-spring-data-jpa-hibernate-h2-web-console/
+https://shakeelosmani.wordpress.com/2017/02/13/step-by-step-spring-boot-hibernate-crud-web-application-tutorial/
+https://springframework.guru/spring-boot-web-application-part-3-spring-data-jpa/

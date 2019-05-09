@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Students Scores</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('.nBtn, .table .eBtn').on('click', function (event) {
+                    event.preventDefault();
+                    var href = $(this).attr('href');
+                    var text = $(this).text();
+                    if (text === 'Edit') {
+                        $('#idword').show();
+                        $.get(href, function (employee) {
+                            $('#id').val(employee.id);
+                            $('#fname').val(employee.fname);
+                            $('#surname').val(employee.surname);
+                            $('#score').val(employee.score);
+                        });
+
+                        $('#exampleModal').modal();
+                    }
+                    else {
+                        $('#idword').hide();
+                        $('#exampleModal').modal('show');
+                        $('#fname').val('');
+                        $('#surname').val('');
+                        $('#score').val('');
+
+                    }
+                });
+
+                $('.table .delBtn').on('click', function (event) {
+                    event.preventDefault();
+                    var href = $(this).attr('href');
+                    $('#myModal #delRef').attr('href', href);
+                    $('#myModal').modal();
+
+                });
+
+
+            });
+        </script>
+    </head>
+    <body>  
+        <div class="container-fluid">
+            <div class="col-lg-12">
+                <br> 
+                <h2>  &nbsp; Students Scores List</h2>
+                <br>
+                <button class="btn btn-link nBtn">Add New Student Score</button>
+                &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; 
+                <label>Average Score:</label> <p id="avgsal" style="display:inline" th:text="${avg}">#</p> 
+                &emsp; 
+                <label>Maximum Score:</label> <p id="avgsal" style="display:inline" th:text="${max}">#</p> 
+                <br><br>       
+            </div>
+            <div class="row">
+                <div class="col-lg-7">
+
+
+
+                    <table class="table table-hover"> 
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>First Name</th>
+                                <th>Surname</th>
+                                <th>Score</th>
+                                <th></th>
+                                <th></th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="employee :${data.content}">
+                                <td th:text="${employee.id}"></td>
+                                <td th:text="${employee.fname}"></td>
+                                <td th:text="${employee.surname}"></td>
+                                <td th:text="${employee.score}"></td>
+                                <td> <a th:href="@{findOne/(id=${employee.id})}" class="btn btn-primary btn-sm eBtn">Edit</a></td>
+                                <td> <a th:href="@{delete/(id=${employee.id})}" class="btn btn-primary btn-sm delBtn">Delete</a></td>
+
+                            </tr>   
+                        </tbody>
+
+                    </table>     
+
+
+
+                </div>
+            </div>
+            <br><br>  
+
+
+
+
+
+
+
+
+
+            <div class="myForm">
+                <form  th:action="@{/save}" method="post"  >     
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Create or Update</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="form-group">
+                                        <div id="idword">
+                                            <label for="id" class="col-form-label">ID:</label>
+                                            <input type="text" class="form-control" id="id" name="id" value="" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fname" class="col-form-label">First Name:</label>
+                                        <input type="text" class="form-control" id="fname" name="fname" value="" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="surname" class="col-form-label">Surname:</label>
+                                        <input type="text" class="form-control" id="surname" name="surname" value="" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="score" class="col-form-label">Score:</label>
+                                        <input type="text" class="form-control" id="score" name="score" value="" />
+                                    </div>
+
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <input type="submit" class="btn btn-primary" value="Save" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+
+
+
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="alert alert-danger"> Confirm to delete these student details!<p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <a href="" class="btn btn-primary" id="delRef">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </body>    
+</html>
